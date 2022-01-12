@@ -13,11 +13,11 @@ import { Login } from "./components/Login";
 function App() {
     return (
     <>
-        <ButtonAppBar/>
+        
         <Routes>
-            <Route path="/" element={<UsersPage />} />
+            <Route path="/" element={<Login />} />
+            <Route path="pages" element={<UsersPage />} />
             <Route path="about" element={<ProfilesPage />} />
-            <Route path="login" element={<Login />} />
             <Route path="products" element={<ProductListComponent />} />
             <Route path="products/add" element={<CreateProduct />} />
         </Routes>

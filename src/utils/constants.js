@@ -1,5 +1,5 @@
 
 
 const localUrl = "localhost:8000..."
-export const prodUrl = "https://martket-django-app.herokuapp.com/inventory/products/"
+export const prodUrl = "https://apirestitpm.itpm.edu.bo/api/index.php/Alumnos/"
 

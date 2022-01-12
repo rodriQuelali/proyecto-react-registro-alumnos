@@ -2,6 +2,7 @@ import {Grid, Container} from "@mui/material";
 import ProductComponent from "./ProductComponent";
 import {useEffect, useState} from "react";
 import axios from 'axios'
+import ButtonAppBar from "./AppBar";
 
 const ProductListComponent = (props) =>{
     const styless = {padding: 10, margin:"5px auto",width: 1200}
@@ -30,21 +31,24 @@ const ProductListComponent = (props) =>{
     const onRemoveProductFromCart = props.onRemoveProductFromCart
 
     return (
-    <Container>
-        <Grid style={styless} container spacing={{ xs: 2, md: 5 }} columns={{ xs: 4, sm: 8, md: 12 }} mt={5}>
-            {
-                products.map((item, index) => {
-                    return <Grid item xs={2} sm={4} md={4} key={index}>
-                        <ProductComponent
-                            product={item}
-                            onAddProductToCart={onAddProductToCart}
-                            onRemoveProductFromCart={onRemoveProductFromCart}
-                        />
-                    </Grid>
-                })
-            }
-        </Grid>
-    </Container>
+        <div>
+            <ButtonAppBar/>
+            <Container>
+                <Grid style={styless} container spacing={{ xs: 2, md: 5 }} columns={{ xs: 4, sm: 8, md: 12 }} mt={5}>
+                    {
+                        products.map((item, index) => {
+                            return <Grid item xs={2} sm={4} md={4} key={index}>
+                                <ProductComponent
+                                    product={item}
+                                    onAddProductToCart={onAddProductToCart}
+                                    onRemoveProductFromCart={onRemoveProductFromCart}
+                                />
+                            </Grid>
+                        })
+                    }
+                </Grid>
+            </Container>
+        </div>
     )
 }
 
