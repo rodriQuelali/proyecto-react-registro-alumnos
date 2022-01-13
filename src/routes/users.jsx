@@ -1,5 +1,12 @@
+import ButtonAppBar from "../components/AppBar";
+
 const UsersPage = () => {
-    return (<h2>Users page</h2>)
+    return (
+        <div>
+            <ButtonAppBar/>
+            <h2>Users page</h2>
+        </div>  
+    )
 }
 
 export default UsersPage;

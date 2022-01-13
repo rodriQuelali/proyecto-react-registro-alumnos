@@ -11,9 +11,32 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import {Link} from "react-router-dom";
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+const ButtonViews = (props) => {
+        return(
+            <Link to={props.direc}> 
+                <Button
+                    key={props.keys}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                    >
+                    {props.content}
+                    </Button>
+                </Link>
+        );
+}
+const ButtonNavViews = (props) => {
+    return(
+        <Link to={props.direc}>
+            <MenuItem key={props.keys} >
+                <Typography textAlign="center">{props.content}</Typography>
+            </MenuItem>
+        </Link>
+    );
+}
 
 export default function ButtonAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -27,12 +50,18 @@ export default function ButtonAppBar() {
     };
   
     const handleCloseNavMenu = () => {
+        console.log(anchorElNav);
       setAnchorElNav(null);
     };
+    const loutClose = () =>{
+        window.location = "/";
+    }
   
     const handleCloseUserMenu = () => {
       setAnchorElUser(null);
     };
+
+    
   
     return (
       <AppBar position="static">
@@ -57,6 +86,7 @@ export default function ButtonAppBar() {
                 color="inherit"
               >
                 <MenuIcon />
+                
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -76,12 +106,10 @@ export default function ButtonAppBar() {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))}
+                 <ButtonNavViews direc ={'/alumnos'} keys={'lista'} content={'Lista de Alumnos'}/>
+                <ButtonNavViews direc ={'/'} keys={'save'} content={'Registro de Alumnos'}/>
               </Menu>
+              
             </Box>
             <Typography
               variant="h6"
@@ -92,16 +120,10 @@ export default function ButtonAppBar() {
               LOGO
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
-              ))}
+                <ButtonViews direc ={'/alumnos'} keys={'lista'} content={'Lista de Alumnos'}/>
+                <ButtonViews direc ={'/'} keys={'save'} content={'Registro de Alumnos'}/>
             </Box>
+            
   
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
@@ -126,7 +148,7 @@ export default function ButtonAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseNavMenu}>
+                  <MenuItem key={setting} onClick={loutClose}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
@@ -137,3 +159,4 @@ export default function ButtonAppBar() {
       </AppBar>
     );
 }
+

@@ -44,7 +44,12 @@ export const Login = () =>{
         // .then(data=> console.log(data));
 
         axios.post(prodUrl + url, data).then(response => {
-          response.data.err === false ? window.location = "pages": alert(response.data.desc);
+          if(response.data.err === false){
+            window.localStorage.setItem('loginSave', JSON.stringify(response.data.alumnos))
+            window.location = "pages"
+          }else{
+            alert(response.data.desc)
+          }  
           console.log("response creation", response.data.err)
       })
 
