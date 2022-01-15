@@ -2,42 +2,161 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import CartComponent from "./CartComponent";
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
 import {Link} from "react-router-dom";
 
+const pages = ['Products', 'Pricing', 'Blog'];
+const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-
-export default function ButtonAppBar() {
-
-    return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
+const ButtonViews = (props) => {
+        return(
+            <Link to={props.direc}> 
+                <Button
+                    key={props.keys}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
                     >
-                        <MenuIcon />
-                    </IconButton>
-                    
-                    <Link 
-                    component="button"
-                    variant="body2" 
-                    to="/products" >Products</Link> 
-                    <Link to="/products/add"> Add Product</Link>
-                    <Link to="/login"> Login</Link>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Shopping page
-                    </Typography>
-                    <CartComponent/>
-                </Toolbar>
-            </AppBar>
-        </Box>
+                    {props.content}
+                    </Button>
+                </Link>
+        );
+}
+const ButtonNavViews = (props) => {
+    return(
+        <Link to={props.direc}>
+            <MenuItem key={props.keys} >
+                <Typography textAlign="center">{props.content}</Typography>
+            </MenuItem>
+        </Link>
     );
 }
+
+export default function ButtonAppBar() {
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
+  
+    const handleOpenNavMenu = (event) => {
+      setAnchorElNav(event.currentTarget);
+    };
+    const handleOpenUserMenu = (event) => {
+      setAnchorElUser(event.currentTarget);
+    };
+  
+    const handleCloseNavMenu = () => {
+        console.log(anchorElNav);
+      setAnchorElNav(null);
+    };
+    const loutClose = () =>{
+        window.location = "/";
+    }
+  
+    const handleCloseUserMenu = () => {
+      setAnchorElUser(null);
+    };
+
+    
+  
+    return (
+      <AppBar position="static">
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            >
+              LOGO
+            </Typography>
+  
+            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+                
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: 'block', md: 'none' },
+                }}
+              >
+                 <ButtonNavViews direc ={'/alumnos'} keys={'lista'} content={'Lista de Alumnos'}/>
+                <ButtonNavViews direc ={'/'} keys={'save'} content={'Registro de Alumnos'}/>
+              </Menu>
+              
+            </Box>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+            >
+              LOGO
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                <ButtonViews direc ={'/alumnos'} keys={'lista'} content={'Lista de Alumnos'}/>
+                <ButtonViews direc ={'/'} keys={'save'} content={'Registro de Alumnos'}/>
+            </Box>
+            
+  
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={loutClose}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    );
+}
+

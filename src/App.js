@@ -6,6 +6,7 @@ import UsersPage from "./routes/users";
 import ProfilesPage from "./routes/profiles";
 import CreateProduct from "./CreateProduct";
 import { Login } from "./components/Login";
+import ListaAlumnos from "./components/ListaAlumnos";
 
 
 
@@ -13,12 +14,12 @@ import { Login } from "./components/Login";
 function App() {
     return (
     <>
-        <ButtonAppBar/>
+        
         <Routes>
-            <Route path="/" element={<UsersPage />} />
+            <Route path="/" element={<Login />} />
+            <Route path="pages" element={<UsersPage />} />
             <Route path="about" element={<ProfilesPage />} />
-            <Route path="login" element={<Login />} />
-            <Route path="products" element={<ProductListComponent />} />
+            <Route path="alumnos" element={<ListaAlumnos />} />
             <Route path="products/add" element={<CreateProduct />} />
         </Routes>
     </>

@@ -12,6 +12,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {useState} from 'react';
+import axios from 'axios';
+import { prodUrl } from '../utils/constants';
+
 
 function Copyright(props) {
   return (
@@ -28,15 +32,38 @@ function Copyright(props) {
 
 const theme = createTheme();
 export const Login = () =>{
+    const url = "loginAlumnos";
+    const [buttonI, setButtonI]= useState(false);
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
+        const data = new FormData(event.currentTarget); 
         // eslint-disable-next-line no-console
-        console.log({
-          email: data.get('email'),
-          password: data.get('password'),
-        });
+        // fetch(url, {method: 'POST', body: data})
+        // .then(response=>response.json())
+        // .then(data=> console.log(data));
+
+        axios.post(prodUrl + url, data).then(response => {
+          if(response.data.err === false){
+            window.localStorage.setItem('loginSave', JSON.stringify(response.data.alumnos))
+            window.location = "pages"
+          }else{
+            alert(response.data.desc)
+          }  
+          console.log("response creation", response.data.err)
+      })
+
+        // console.log({
+        //   email: data.get('email'),
+        //   password: data.get('password'),
+        // });
       };
+
+    const updateText = e =>{
+     const txtN = document.querySelector('#correo');
+     const txtP = document.querySelector('#password');
+     txtN.value != "" || txtP.value != "" ? setButtonI(true): setButtonI(false);
+    }
     
       return (
         <ThemeProvider theme={theme}>
@@ -54,21 +81,23 @@ export const Login = () =>{
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                Sign in
+                Inicio de sesion
               </Typography>
-              <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+              <Box component="form"  onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                 <TextField
                   margin="normal"
+                  onChange={updateText}
                   required
                   fullWidth
-                  id="email"
+                  id="correo"
                   label="Email Address"
-                  name="email"
+                  name="correo"
                   autoComplete="email"
                   autoFocus
                 />
                 <TextField
                   margin="normal"
+                  onChange={updateText}
                   required
                   fullWidth
                   name="password"
@@ -77,30 +106,16 @@ export const Login = () =>{
                   id="password"
                   autoComplete="current-password"
                 />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
+                
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
+                  disabled={!buttonI}
                 >
-                  Sign In
+                  Ingresar
                 </Button>
-                <Grid container>
-                  <Grid item xs>
-                    <Link href="#" variant="body2">
-                      Forgot password?
-                    </Link>
-                  </Grid>
-                  <Grid item>
-                    <Link href="#" variant="body2">
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  </Grid>
-                </Grid>
               </Box>
             </Box>
             <Copyright sx={{ mt: 8, mb: 4 }} />
